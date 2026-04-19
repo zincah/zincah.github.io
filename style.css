@@ -1244,12 +1244,7 @@ html {
   #win-proj-detail.open { display: block !important; }
 
   #win-error {
-    position: fixed !important;
-    top: 20% !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    width: 88% !important;
-    z-index: 9500 !important;
+    display: none !important;
   }
 
   /* 바탕화면 아이콘 숨김 */
