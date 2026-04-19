@@ -331,27 +331,30 @@ function initDrag(win) {
    STICKER DRAG
    ============================================= */
 function initStickerDrag(el) {
-  let dragging = false, ox = 0, oy = 0;
+  let dragging = false;
+  let startX = 0, startY = 0, startLeft = 0, startTop = 0;
 
   function startDrag(cx, cy) {
     dragging = true;
-    /* 애니메이션(translateY)을 먼저 제거한 뒤 좌표를 읽어야 스냅 현상 없음 */
-    el.classList.add('s-dragging');
-    const rect       = el.getBoundingClientRect();
+    /* 애니메이션 제거 전에 시각적 위치를 읽어야 translateY land 스냅이 없음 */
+    const visualRect = el.getBoundingClientRect();
     const parentRect = (el.offsetParent || document.documentElement).getBoundingClientRect();
-    el.style.left   = (rect.left - parentRect.left) + 'px';
-    el.style.top    = (rect.top  - parentRect.top)  + 'px';
+    el.classList.add('s-dragging');
+    startLeft = visualRect.left - parentRect.left;
+    startTop  = visualRect.top  - parentRect.top;
+    el.style.left   = startLeft + 'px';
+    el.style.top    = startTop  + 'px';
     el.style.right  = 'auto';
     el.style.bottom = 'auto';
-    ox = cx - rect.left;
-    oy = cy - rect.top;
+    startX = cx;
+    startY = cy;
     document.body.style.userSelect = 'none';
   }
 
   function moveDrag(cx, cy) {
     if (!dragging) return;
-    const nx = Math.max(0, Math.min(window.innerWidth  - el.offsetWidth,  cx - ox));
-    const ny = Math.max(0, Math.min(window.innerHeight - el.offsetHeight - 44, cy - oy));
+    const nx = Math.max(0, Math.min(window.innerWidth  - el.offsetWidth,  startLeft + (cx - startX)));
+    const ny = Math.max(0, Math.min(window.innerHeight - el.offsetHeight - 44, startTop + (cy - startY)));
     el.style.left = nx + 'px';
     el.style.top  = ny + 'px';
   }
