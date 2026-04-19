@@ -713,35 +713,48 @@ function scheduleErrorPopup() {
   });
   const noBtn = document.getElementById('btn-error-no');
   if (noBtn) {
+    let noBtnFixed = false;
+
     noBtn.addEventListener('mousemove', (e) => {
       const btn = e.currentTarget;
       const rect = btn.getBoundingClientRect();
-      const btnCx = rect.left + rect.width / 2;
-      const btnCy = rect.top + rect.height / 2;
 
-      /* 커서→버튼 중심 벡터의 반대 방향으로 도망 */
+      if (!noBtnFixed) {
+        /* 처음 hover 시: 현재 위치 그대로 fixed로 고정 (순간이동 방지) */
+        btn.style.transition = 'none';
+        btn.style.position = 'fixed';
+        btn.style.left = rect.left + 'px';
+        btn.style.top  = rect.top  + 'px';
+        btn.style.zIndex = 9999;
+        btn.offsetHeight; /* reflow 강제 */
+        btn.style.transition = 'left 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        noBtnFixed = true;
+      }
+
+      const btnCx = rect.left + rect.width / 2;
+      const btnCy = rect.top  + rect.height / 2;
       const dx = btnCx - e.clientX;
       const dy = btnCy - e.clientY;
       const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-      const flee = 90;
+      const flee = 110;
       let nx = btnCx + (dx / dist) * flee;
       let ny = btnCy + (dy / dist) * flee;
 
-      /* 화면 밖으로 나가지 않도록 클램프 */
-      nx = Math.max(rect.width / 2, Math.min(window.innerWidth  - rect.width / 2,  nx));
-      ny = Math.max(rect.height / 2, Math.min(window.innerHeight - rect.height / 2, ny));
+      const pad = 8;
+      nx = Math.max(rect.width  / 2 + pad, Math.min(window.innerWidth  - rect.width  / 2 - pad, nx));
+      ny = Math.max(rect.height / 2 + pad, Math.min(window.innerHeight - rect.height / 2 - pad, ny));
 
-      btn.style.position = 'fixed';
-      btn.style.left = (nx - rect.width / 2) + 'px';
+      btn.style.left = (nx - rect.width  / 2) + 'px';
       btn.style.top  = (ny - rect.height / 2) + 'px';
-      btn.style.zIndex = 9999;
     });
 
-    /* 팝업이 닫히거나 다시 열릴 때 버튼 위치 초기화 */
     const resetNoBtn = () => {
+      noBtn.style.transition = 'none';
       noBtn.style.position = '';
       noBtn.style.left = '';
       noBtn.style.top  = '';
+      noBtn.style.zIndex = '';
+      noBtnFixed = false;
     };
 
     document.getElementById('btn-error-yes')?.addEventListener('click', resetNoBtn);
