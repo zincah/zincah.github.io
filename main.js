@@ -709,59 +709,80 @@ function scheduleErrorPopup() {
     closeWindow('win-error');
     openWindow('win-contact');
   });
-  const noBtn = document.getElementById('btn-error-no');
-  if (noBtn) {
-    let noBtnFixed = false;
 
-    noBtn.addEventListener('mousemove', (e) => {
-      const btn = e.currentTarget;
-      const rect = btn.getBoundingClientRect();
+  /* 아니오 버튼 술래잡기 — rAF 물리 기반 */
+  const noBtn  = document.getElementById('btn-error-no');
+  const popup  = document.getElementById('win-error');
+  if (noBtn && popup) {
+    let bx = 0, by = 0;           /* 버튼 중심 (viewport px) */
+    let vx = 0, vy = 0;           /* 속도 */
+    let curX = -9999, curY = -9999;
+    let rafId = null;
 
-      if (!noBtnFixed) {
-        /* 처음 hover 시: 현재 위치 그대로 fixed로 고정 (순간이동 방지) */
-        btn.style.transition = 'none';
-        btn.style.position = 'fixed';
-        btn.style.left = rect.left + 'px';
-        btn.style.top  = rect.top  + 'px';
-        btn.style.zIndex = 9999;
-        btn.offsetHeight; /* reflow 강제 */
-        btn.style.transition = 'left 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        noBtnFixed = true;
-      }
-
-      const btnCx = rect.left + rect.width / 2;
-      const btnCy = rect.top  + rect.height / 2;
-      const dx = btnCx - e.clientX;
-      const dy = btnCy - e.clientY;
-      const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-      const flee = 110;
-      let nx = btnCx + (dx / dist) * flee;
-      let ny = btnCy + (dy / dist) * flee;
-
-      const pad = 8;
-      nx = Math.max(rect.width  / 2 + pad, Math.min(window.innerWidth  - rect.width  / 2 - pad, nx));
-      ny = Math.max(rect.height / 2 + pad, Math.min(window.innerHeight - rect.height / 2 - pad, ny));
-
-      btn.style.left = (nx - rect.width  / 2) + 'px';
-      btn.style.top  = (ny - rect.height / 2) + 'px';
-    });
-
-    const resetNoBtn = () => {
+    const activate = () => {
+      if (rafId) return;
+      const r = noBtn.getBoundingClientRect();
+      /* 크기를 고정해서 fixed 전환 시 찌그러짐 방지 */
+      noBtn.style.width    = r.width  + 'px';
+      noBtn.style.height   = r.height + 'px';
+      noBtn.style.margin   = '0';
+      noBtn.style.position = 'fixed';
+      noBtn.style.zIndex   = '9999';
       noBtn.style.transition = 'none';
-      noBtn.style.position = '';
-      noBtn.style.left = '';
-      noBtn.style.top  = '';
-      noBtn.style.zIndex = '';
-      noBtnFixed = false;
+      bx = r.left + r.width  / 2;
+      by = r.top  + r.height / 2;
+      vx = vy = 0;
+      noBtn.style.left = (bx - r.width  / 2) + 'px';
+      noBtn.style.top  = (by - r.height / 2) + 'px';
+      rafId = requestAnimationFrame(tick);
     };
 
-    document.getElementById('btn-error-yes')?.addEventListener('click', resetNoBtn);
+    const deactivate = () => {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      /* 인라인 스타일 초기화 → 버튼이 팝업 레이아웃으로 복귀 */
+      noBtn.style.cssText = '';
+    };
 
-    const popup = document.getElementById('win-error');
-    const observer = new MutationObserver(() => {
-      if (popup.style.display === 'block') resetNoBtn();
-    });
-    if (popup) observer.observe(popup, { attributes: true, attributeFilter: ['style'] });
+    const tick = () => {
+      const w = noBtn.offsetWidth;
+      const h = noBtn.offsetHeight;
+      const dx = curX - bx;
+      const dy = curY - by;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      const fleeR = 100; /* 이 반경 안에 들어오면 도망 */
+
+      if (dist < fleeR) {
+        const force = ((fleeR - dist) / fleeR) * 15;
+        vx -= (dx / dist) * force;
+        vy -= (dy / dist) * force;
+      }
+
+      /* 감쇠 — 0.84에 가까울수록 미끄러지듯 움직임 */
+      vx *= 0.84;
+      vy *= 0.84;
+
+      bx += vx;
+      by += vy;
+
+      /* 화면 경계 안에 가두기 (태스크바 44px 제외) */
+      const pad = 10;
+      bx = Math.max(w / 2 + pad, Math.min(window.innerWidth  - w / 2 - pad, bx));
+      by = Math.max(h / 2 + pad, Math.min(window.innerHeight - h / 2 - 44 - pad, by));
+
+      noBtn.style.left = (bx - w / 2) + 'px';
+      noBtn.style.top  = (by - h / 2) + 'px';
+
+      rafId = requestAnimationFrame(tick);
+    };
+
+    document.addEventListener('mousemove', e => { curX = e.clientX; curY = e.clientY; });
+
+    new MutationObserver(() => {
+      popup.style.display === 'block' ? activate() : deactivate();
+    }).observe(popup, { attributes: true, attributeFilter: ['style'] });
+
+    document.getElementById('btn-error-yes')?.addEventListener('click', deactivate);
+    document.querySelector('.win-close[data-window="win-error"]')?.addEventListener('click', deactivate);
   }
 }
 
