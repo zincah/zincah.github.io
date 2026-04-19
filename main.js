@@ -331,12 +331,17 @@ function initDrag(win) {
    STICKER DRAG
    ============================================= */
 function initStickerDrag(el) {
+  el.draggable = false; /* 브라우저 네이티브 이미지 드래그 차단 */
+
   let dragging = false;
   let startX = 0, startY = 0, startLeft = 0, startTop = 0;
 
-  function startDrag(cx, cy) {
+  el.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    e.stopPropagation();
     dragging = true;
-    /* 애니메이션 제거 전에 시각적 위치를 읽어야 translateY land 스냅이 없음 */
+
+    /* 애니메이션 제거 전에 시각적 위치를 읽어서 translateY 스냅 방지 */
     const visualRect = el.getBoundingClientRect();
     const parentRect = (el.offsetParent || document.documentElement).getBoundingClientRect();
     el.classList.add('s-dragging');
@@ -346,42 +351,31 @@ function initStickerDrag(el) {
     el.style.top    = startTop  + 'px';
     el.style.right  = 'auto';
     el.style.bottom = 'auto';
-    startX = cx;
-    startY = cy;
-    document.body.style.userSelect = 'none';
-  }
+    startX = e.clientX;
+    startY = e.clientY;
 
-  function moveDrag(cx, cy) {
+    /* pointer capture: 요소 밖으로 커서가 나가도 이벤트 유지 */
+    el.setPointerCapture(e.pointerId);
+    document.body.style.userSelect = 'none';
+  });
+
+  el.addEventListener('pointermove', e => {
     if (!dragging) return;
-    const nx = Math.max(0, Math.min(window.innerWidth  - el.offsetWidth,  startLeft + (cx - startX)));
-    const ny = Math.max(0, Math.min(window.innerHeight - el.offsetHeight - 44, startTop + (cy - startY)));
+    const nx = Math.max(0, Math.min(window.innerWidth  - el.offsetWidth,  startLeft + (e.clientX - startX)));
+    const ny = Math.max(0, Math.min(window.innerHeight - el.offsetHeight - 44, startTop  + (e.clientY - startY)));
     el.style.left = nx + 'px';
     el.style.top  = ny + 'px';
-  }
+  });
 
-  function endDrag() {
+  const endDrag = () => {
     if (!dragging) return;
     dragging = false;
     el.classList.remove('s-dragging');
     document.body.style.userSelect = '';
-  }
+  };
 
-  el.addEventListener('mousedown', e => { e.stopPropagation(); startDrag(e.clientX, e.clientY); });
-  document.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
-  document.addEventListener('mouseup', endDrag);
-
-  el.addEventListener('touchstart', e => {
-    e.stopPropagation();
-    const t = e.touches[0];
-    startDrag(t.clientX, t.clientY);
-  }, { passive: true });
-  document.addEventListener('touchmove', e => {
-    if (!dragging) return;
-    e.preventDefault();
-    const t = e.touches[0];
-    moveDrag(t.clientX, t.clientY);
-  }, { passive: false });
-  document.addEventListener('touchend', endDrag);
+  el.addEventListener('pointerup',     endDrag);
+  el.addEventListener('pointercancel', endDrag);
 }
 
 /* =============================================
