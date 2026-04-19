@@ -335,15 +335,16 @@ function initStickerDrag(el) {
 
   function startDrag(cx, cy) {
     dragging = true;
-    const rect = el.getBoundingClientRect();
-    /* % → px 로 전환해서 드래그 중 정확한 위치 추적 */
-    el.style.left = rect.left + 'px';
-    el.style.top  = rect.top  + 'px';
+    /* 애니메이션(translateY)을 먼저 제거한 뒤 좌표를 읽어야 스냅 현상 없음 */
+    el.classList.add('s-dragging');
+    const rect       = el.getBoundingClientRect();
+    const parentRect = (el.offsetParent || document.documentElement).getBoundingClientRect();
+    el.style.left   = (rect.left - parentRect.left) + 'px';
+    el.style.top    = (rect.top  - parentRect.top)  + 'px';
     el.style.right  = 'auto';
     el.style.bottom = 'auto';
     ox = cx - rect.left;
     oy = cy - rect.top;
-    el.classList.add('s-dragging');
     document.body.style.userSelect = 'none';
   }
 
