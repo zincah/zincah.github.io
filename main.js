@@ -588,20 +588,16 @@ const PROJECT_DATA = {
     link: null,
   },
   'personal-1': {
-    name: '[프로젝트명-1]',
+    name: 'ArticleSummary Pro',
     type: 'Personal',
-    desc: '[개인 프로젝트 상세 설명을 여기에 입력하세요.]',
-    tech: ['Java', 'Spring Boot', 'JPA'],
-    achievements: ['[성과 1]'],
-    link: 'https://github.com/[username]/[repo]',
-  },
-  'personal-2': {
-    name: '[프로젝트명-2]',
-    type: 'Personal',
-    desc: '[개인 프로젝트 상세 설명을 여기에 입력하세요.]',
-    tech: ['Java', 'Spring Boot'],
-    achievements: ['[성과 1]'],
-    link: 'https://github.com/[username]/[repo]',
+    desc: 'Claude AI(claude-sonnet-4-6)를 활용한 AI 기반 기사 요약 서비스. URL 또는 텍스트를 입력하면 실시간 스트리밍으로 기사를 요약하며, 요약 길이·톤 선택, 히스토리 저장·즐겨찾기, 다크모드 등을 지원합니다.',
+    tech: ['React 18', 'Vite', 'Tailwind CSS', 'Node.js', 'Express', 'Claude API'],
+    achievements: [
+      'Claude Streaming API를 활용한 실시간 타이핑 효과 구현',
+      '요약 길이(짧음/중간/길음) 및 톤(중립/전문/쉬움) 커스터마이징',
+      '로컬 스토리지 기반 히스토리·즐겨찾기 관리',
+    ],
+    link: 'https://github.com/zincah/article-summary-pro',
   },
 };
 
