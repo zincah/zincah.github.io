@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Backend Developer Portfolio — Y2K 레트로 OS 컨셉 포트폴리오" />
+  <meta name="theme-color" content="#C9B8E8" />
+  <meta property="og:title" content="MY DESKTOP.exe — Portfolio" />
+  <meta property="og:description" content="Y2K 레트로 OS 바탕화면 컨셉 백엔드 개발자 포트폴리오" />
+  <meta property="og:type" content="website" />
+  <title>MY DESKTOP.exe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Noto+Sans+KR:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ==================== BOOT SCREEN ==================== -->
+  <div id="boot-screen">
+
+    <!-- 배경 장식 -->
+    <div class="boot-deco" style="top:6%;left:7%;font-size:52px;transform:rotate(-14deg);animation-delay:0.3s">⭐</div>
+    <div class="boot-deco" style="top:10%;right:9%;font-size:38px;transform:rotate(10deg);animation-delay:0.6s">✨</div>
+    <div class="boot-deco" style="bottom:12%;left:6%;font-size:44px;transform:rotate(8deg);animation-delay:0.9s">🎀</div>
+    <div class="boot-deco" style="bottom:8%;right:7%;font-size:40px;transform:rotate(-6deg);animation-delay:0.4s">🌸</div>
+    <div class="boot-deco" style="top:42%;left:4%;font-size:30px;transform:rotate(15deg);animation-delay:0.7s">✨</div>
+    <div class="boot-deco" style="top:38%;right:5%;font-size:34px;transform:rotate(-12deg);animation-delay:0.2s">⭐</div>
+
+    <div class="boot-box">
+      <div class="boot-title-area">
+        <span class="boot-sparkle-left">✿</span>
+        <span class="boot-title-text" id="boot-title-text">[이름] Portfolio</span>
+        <span class="boot-sparkle-right">✿</span>
+      </div>
+
+      <p class="boot-subtitle">Loading your experience...</p>
+
+      <div class="boot-progress-area">
+        <div class="boot-bar-wrap">
+          <div class="boot-bar-fill" id="boot-bar"></div>
+          <div class="boot-bar-shine"></div>
+        </div>
+        <div class="boot-progress-foot">
+          <span class="boot-pct-blocks" id="boot-pct-blocks">░░░░░░░░░░░░░░░░░░░░</span>
+          <span class="boot-percent" id="boot-percent">0%</span>
+        </div>
+      </div>
+
+      <ul class="boot-checklist" id="boot-checklist"></ul>
+
+      <div class="boot-complete" id="boot-complete">✓ LOADING COMPLETE</div>
+    </div>
+  </div>
+
+  <!-- ==================== DESKTOP ==================== -->
+  <div id="desktop" class="hidden">
+
+    <!-- Y2K STICKERS -->
+    <div class="sticker" data-rot="-8"  style="top:12%;left:42%;font-size:48px">⭐</div>
+    <div class="sticker" data-rot="5"   style="top:7%;left:72%;font-size:36px">✨</div>
+    <div class="sticker" data-rot="12"  style="top:55%;left:38%;font-size:40px">🌸</div>
+    <div class="sticker" data-rot="-6"  style="top:68%;left:62%;font-size:52px">⭐</div>
+    <div class="sticker" data-rot="3"   style="top:18%;left:80%;font-size:32px">🎀</div>
+    <div class="sticker" data-rot="-10" style="top:75%;left:80%;font-size:38px">💾</div>
+    <div class="sticker" data-rot="7"   style="top:40%;left:72%;font-size:34px">📼</div>
+    <div class="sticker" data-rot="-4"  style="top:30%;left:48%;font-size:28px">✨</div>
+    <div class="sticker" data-rot="9"   style="top:82%;left:30%;font-size:32px">🎀</div>
+    <div class="sticker" data-rot="-12" style="top:8%;left:56%;font-size:30px">✨</div>
+
+    <!-- DESKTOP ICONS -->
+    <div class="desktop-icons">
+      <div class="icon" id="icon-about" data-window="win-about">
+        <div class="icon-img">📁</div>
+        <div class="icon-label">ABOUT.exe</div>
+      </div>
+      <div class="icon" id="icon-skills" data-window="win-skills">
+        <div class="icon-img">📁</div>
+        <div class="icon-label">SKILLS.txt</div>
+      </div>
+      <div class="icon" id="icon-projects" data-window="win-projects">
+        <div class="icon-img">💾</div>
+        <div class="icon-label">PROJECT</div>
+      </div>
+      <div class="icon" id="icon-contact" data-window="win-contact">
+        <div class="icon-img">📧</div>
+        <div class="icon-label">CONTACT</div>
+      </div>
+    </div>
+
+    <!-- ==================== OS WINDOWS ==================== -->
+    <!-- ABOUT -->
+    <div class="os-window" id="win-about" style="top:80px;left:60px;width:430px;">
+      <div class="win-titlebar" data-window="win-about">
+        <div class="win-controls">
+          <button class="win-btn win-close" data-window="win-about">✕</button>
+          <button class="win-btn win-max"   data-window="win-about">○</button>
+          <button class="win-btn win-min"   data-window="win-about">─</button>
+        </div>
+        <span class="win-title">about.exe</span>
+        <span class="win-icon-label">📁</span>
+      </div>
+      <div class="win-body">
+        <div class="about-layout">
+          <div class="about-photo-wrap">
+            <img src="assets/photo.jpg" alt="photo" class="about-photo"
+              onerror="this.style.display='none';document.getElementById('about-photo-ph').style.display='flex'" />
+            <div class="about-photo-ph" id="about-photo-ph">🧑‍💻</div>
+          </div>
+          <div class="about-info">
+            <div class="info-row"><span class="info-label">NAME</span><span class="info-sep">:</span><span class="info-val">[이름]</span></div>
+            <div class="info-row"><span class="info-label">ROLE</span><span class="info-sep">:</span><span class="info-val">Backend Dev</span></div>
+            <div class="info-row"><span class="info-label">COMPANY</span><span class="info-sep">:</span><span class="info-val">[회사명]</span></div>
+            <div class="info-row"><span class="info-label">SINCE</span><span class="info-sep">:</span><span class="info-val">[입사년도]</span></div>
+            <div class="info-row">
+              <span class="info-label">STATUS</span><span class="info-sep">:</span>
+              <span class="info-val status-employed"><span class="dot-green"></span>EMPLOYED</span>
+            </div>
+          </div>
+        </div>
+        <hr class="win-divider" />
+        <p class="about-bio">[자기소개 텍스트 2~3문장]</p>
+        <div class="about-actions">
+          <button class="y2k-btn primary" id="about-btn-ok">확인 ✿</button>
+          <button class="y2k-btn" id="about-btn-close">닫기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="os-window" id="win-skills" style="top:100px;left:500px;width:400px;">
+      <div class="win-titlebar" data-window="win-skills">
+        <div class="win-controls">
+          <button class="win-btn win-close" data-window="win-skills">✕</button>
+          <button class="win-btn win-max"   data-window="win-skills">○</button>
+          <button class="win-btn win-min"   data-window="win-skills">─</button>
+        </div>
+        <span class="win-title">skills.txt</span>
+        <span class="win-icon-label">📁</span>
+      </div>
+      <div class="win-body">
+        <div class="skills-section-title">&gt; LANGUAGES &amp; FRAMEWORKS</div>
+        <hr class="win-divider" />
+        <div class="skill-row"><span class="skill-name">Java</span><div class="skill-bar-wrap"><div class="skill-bar-fill" data-pct="80"></div></div><span class="skill-pct">80%</span></div>
+        <div class="skill-row"><span class="skill-name">Spring Boot</span><div class="skill-bar-wrap"><div class="skill-bar-fill" data-pct="70"></div></div><span class="skill-pct">70%</span></div>
+        <div class="skill-row"><span class="skill-name">Oracle / SQL</span><div class="skill-bar-wrap"><div class="skill-bar-fill" data-pct="80"></div></div><span class="skill-pct">80%</span></div>
+        <div class="skill-row"><span class="skill-name">MyBatis</span><div class="skill-bar-wrap"><div class="skill-bar-fill" data-pct="70"></div></div><span class="skill-pct">70%</span></div>
+        <div class="skill-row"><span class="skill-name">Git</span><div class="skill-bar-wrap"><div class="skill-bar-fill" data-pct="80"></div></div><span class="skill-pct">80%</span></div>
+        <div class="skill-row"><span class="skill-name">Linux</span><div class="skill-bar-wrap"><div class="skill-bar-fill" data-pct="60"></div></div><span class="skill-pct">60%</span></div>
+        <hr class="win-divider" />
+        <div class="skills-section-title">&gt; DOMAIN KNOWLEDGE</div>
+        <hr class="win-divider" />
+        <div class="domain-row"><span class="check-mark">✓</span> 금융 솔루션 시스템 개발</div>
+        <div class="domain-row"><span class="check-mark">✓</span> REST API 설계 및 연동</div>
+        <div class="domain-row"><span class="check-mark">✓</span> 배치 처리 / 스케줄링</div>
+      </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="os-window" id="win-projects" style="top:250px;left:200px;width:450px;">
+      <div class="win-titlebar" data-window="win-projects">
+        <div class="win-controls">
+          <button class="win-btn win-close" data-window="win-projects">✕</button>
+          <button class="win-btn win-max"   data-window="win-projects">○</button>
+          <button class="win-btn win-min"   data-window="win-projects">─</button>
+        </div>
+        <span class="win-title">My Projects</span>
+        <span class="win-icon-label">💾</span>
+      </div>
+      <div class="win-body">
+        <div class="proj-folder-title">📁 Company_Projects/</div>
+
+        <div class="proj-item" data-proj-id="company-1">
+          <div class="proj-item-top">
+            <span class="proj-filename">├─ 📄 [프로젝트명-1]</span>
+            <button class="proj-open-btn" data-proj-id="company-1">열기 →</button>
+          </div>
+          <div class="proj-item-desc">[한줄 설명] &nbsp;│&nbsp; Java · Spring</div>
+        </div>
+
+        <div class="proj-item" data-proj-id="company-2">
+          <div class="proj-item-top">
+            <span class="proj-filename">└─ 📄 [프로젝트명-2]</span>
+            <button class="proj-open-btn" data-proj-id="company-2">열기 →</button>
+          </div>
+          <div class="proj-item-desc">[한줄 설명] &nbsp;│&nbsp; Oracle · MyBatis</div>
+        </div>
+
+        <hr class="win-divider" />
+        <div class="proj-folder-title">📁 Personal_Projects/</div>
+
+        <div class="proj-item" data-proj-id="personal-1">
+          <div class="proj-item-top">
+            <span class="proj-filename">├─ 📄 [프로젝트명-1]</span>
+            <button class="proj-open-btn github" data-proj-id="personal-1">GitHub →</button>
+          </div>
+          <div class="proj-item-desc">[한줄 설명] &nbsp;│&nbsp; Java · Spring Boot</div>
+        </div>
+
+        <div class="proj-item" data-proj-id="personal-2">
+          <div class="proj-item-top">
+            <span class="proj-filename">└─ 📄 [프로젝트명-2]</span>
+            <button class="proj-open-btn github" data-proj-id="personal-2">GitHub →</button>
+          </div>
+          <div class="proj-item-desc">[한줄 설명] &nbsp;│&nbsp; ...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT DETAIL (동적으로 채워짐) -->
+    <div class="os-window" id="win-proj-detail" style="top:160px;left:280px;width:420px;">
+      <div class="win-titlebar" data-window="win-proj-detail">
+        <div class="win-controls">
+          <button class="win-btn win-close" data-window="win-proj-detail">✕</button>
+          <button class="win-btn win-max"   data-window="win-proj-detail">○</button>
+          <button class="win-btn win-min"   data-window="win-proj-detail">─</button>
+        </div>
+        <span class="win-title" id="detail-title">project.txt</span>
+        <span class="win-icon-label">📄</span>
+      </div>
+      <div class="win-body" id="detail-body"></div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="os-window" id="win-contact" style="top:300px;left:650px;width:380px;">
+      <div class="win-titlebar" data-window="win-contact">
+        <div class="win-controls">
+          <button class="win-btn win-close" data-window="win-contact">✕</button>
+          <button class="win-btn win-max"   data-window="win-contact">○</button>
+          <button class="win-btn win-min"   data-window="win-contact">─</button>
+        </div>
+        <span class="win-title">Send Message 💌</span>
+        <span class="win-icon-label">📧</span>
+      </div>
+      <div class="win-body">
+        <div class="contact-to-row">
+          <span class="contact-to-label">To</span>
+          <span class="contact-to-sep">:</span>
+          <span class="contact-email">[내 이메일]</span>
+        </div>
+        <hr class="win-divider" />
+        <div class="contact-field-row">
+          <label class="contact-field-label">From</label>
+          <input type="text" id="contact-from" class="contact-input" placeholder="your name / email" />
+        </div>
+        <div class="contact-field-row">
+          <label class="contact-field-label">Msg</label>
+          <textarea id="contact-msg" class="contact-input contact-textarea" placeholder="메시지를 입력하세요..."></textarea>
+        </div>
+        <div class="contact-error" id="contact-error"></div>
+        <div class="contact-links">
+          <a href="https://github.com/[username]" target="_blank" class="contact-link">🐙 GitHub →</a>
+        </div>
+        <div class="contact-actions">
+          <button class="y2k-btn primary" id="btn-send">SEND 💌</button>
+          <button class="y2k-btn" id="contact-btn-cancel">CANCEL</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ERROR POPUP (랜덤 등장) -->
+    <div class="os-window" id="win-error" style="top:32%;left:50%;transform:translateX(-50%);width:310px;z-index:9000;">
+      <div class="win-titlebar" data-window="win-error">
+        <div class="win-controls">
+          <button class="win-btn win-close" data-window="win-error">✕</button>
+        </div>
+        <span class="win-title">⚠️ System Alert</span>
+      </div>
+      <div class="win-body error-body">
+        <div class="error-icon">⚠️</div>
+        <p class="error-msg" id="error-msg">talented developer found</p>
+        <p class="error-sub" id="error-sub">채용하시겠습니까?</p>
+        <div class="error-actions">
+          <button class="y2k-btn primary" id="btn-error-yes">예 ✓</button>
+          <button class="y2k-btn" id="btn-error-no">아니오</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASKBAR -->
+    <div class="taskbar">
+      <button class="taskbar-start" id="btn-start">✿ 시작</button>
+      <div class="taskbar-windows" id="taskbar-windows">
+        <button class="taskbar-win-btn" data-window="win-about">📁 ABOUT</button>
+        <button class="taskbar-win-btn" data-window="win-skills">🗂️ SKILLS</button>
+        <button class="taskbar-win-btn" data-window="win-projects">💾 PROJECT</button>
+        <button class="taskbar-win-btn" data-window="win-contact">📧 CONTACT</button>
+      </div>
+      <div class="taskbar-clock" id="taskbar-clock">00:00</div>
+    </div>
+
+  </div><!-- /#desktop -->
+
+  <script src="main.js"></script>
+</body>
+</html>

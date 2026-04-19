@@ -1,0 +1,1305 @@
+/* =============================================
+   MY DESKTOP.exe — style.css
+   ============================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --desktop-bg-start: #E8D5F5;
+  --desktop-bg-end:   #D5EEF5;
+  --titlebar:         #F4A7B9;
+  --win-bg:           #FEFAF8;
+  --win-border:       #C9A8E0;
+  --text:             #3D2B5E;
+  --label:            #7B5EA7;
+  --btn-base:         #D4B8E0;
+  --btn-hover:        #F4A7B9;
+  --accent:           #FFB347;
+  --taskbar-bg:       #C9B8E8;
+  --taskbar-border:   #A990D0;
+  --icon-hl:          #FFF176;
+  --skill-fill:       #98E0C8;
+  --skill-bg:         #E8E8E8;
+  --green:            #4CAF50;
+
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-retro: 'VT323', monospace;
+  --font-kr:    'Noto Sans KR', sans-serif;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-retro);
+  color: var(--text);
+  font-size: 14px;
+}
+
+.hidden { display: none !important; }
+
+/* =============================================
+   BOOT SCREEN
+   ============================================= */
+#boot-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, var(--desktop-bg-start) 0%, var(--desktop-bg-end) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease;
+  overflow: hidden;
+}
+
+/* 배경 장식 스티커 */
+.boot-deco {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  opacity: 0;
+  animation: bootDecoIn 0.5s ease forwards;
+  filter: drop-shadow(1px 2px 4px rgba(61,43,94,0.12));
+}
+
+@keyframes bootDecoIn {
+  from { opacity: 0; transform: scale(0.5) rotate(var(--r, 0deg)); }
+  to   { opacity: 1; transform: scale(1)   rotate(var(--r, 0deg)); }
+}
+
+/* 부팅 박스 */
+.boot-box {
+  width: min(460px, 90vw);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(6px);
+  border: 2px solid var(--win-border);
+  border-radius: 10px;
+  box-shadow: 4px 8px 28px rgba(61, 43, 94, 0.14), 0 0 0 4px rgba(201,168,224,0.15);
+  padding: 36px 40px 32px;
+  text-align: center;
+  font-family: var(--font-pixel);
+  color: var(--text);
+  animation: bootBoxIn 0.4s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+}
+
+@keyframes bootBoxIn {
+  from { opacity: 0; transform: scale(0.9) translateY(16px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0); }
+}
+
+/* 타이틀 영역 */
+.boot-title-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.boot-title-text {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  color: var(--label);
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+}
+
+.boot-sparkle-left,
+.boot-sparkle-right {
+  font-size: 14px;
+  color: var(--titlebar);
+  animation: sparkSpin 3s ease-in-out infinite;
+}
+
+.boot-sparkle-right { animation-direction: reverse; }
+
+@keyframes sparkSpin {
+  0%, 100% { transform: scale(1) rotate(0deg);    opacity: 1; }
+  50%       { transform: scale(1.3) rotate(20deg); opacity: 0.7; }
+}
+
+/* 서브타이틀 */
+.boot-subtitle {
+  font-family: var(--font-retro);
+  font-size: 20px;
+  color: var(--text);
+  margin-bottom: 24px;
+  opacity: 0.75;
+}
+
+/* 프로그레스 영역 */
+.boot-progress-area {
+  margin-bottom: 22px;
+}
+
+.boot-bar-wrap {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  border: 2px solid var(--win-border);
+  background: rgba(255,255,255,0.8);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.boot-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--titlebar) 0px,
+    var(--titlebar) 12px,
+    #f9c4d0 12px,
+    #f9c4d0 14px
+  );
+  border-radius: 3px;
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.boot-bar-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.35) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.boot-progress-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2px;
+}
+
+.boot-pct-blocks {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--win-border);
+  letter-spacing: 2px;
+}
+
+.boot-percent {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--label);
+}
+
+/* 체크리스트 */
+.boot-checklist {
+  list-style: none;
+  text-align: left;
+  font-family: var(--font-retro);
+  font-size: 19px;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 8px;
+  min-height: 100px;
+}
+
+.boot-checklist li {
+  padding: 4px 0;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.boot-checklist li.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.boot-checklist li .boot-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background: var(--label);
+  margin-left: 2px;
+  animation: cursorBlink 0.7s step-end infinite;
+  vertical-align: middle;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* LOADING COMPLETE */
+.boot-complete {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--green);
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  min-height: 20px;
+  margin-top: 6px;
+}
+
+.boot-complete.show { opacity: 1; }
+
+/* =============================================
+   DESKTOP
+   ============================================= */
+#desktop {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--desktop-bg-start) 0%, var(--desktop-bg-end) 100%);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#desktop.fade-in {
+  animation: desktopFadeIn 0.6s ease forwards;
+}
+
+@keyframes desktopFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* =============================================
+   Y2K STICKERS
+   ============================================= */
+.sticker {
+  position: absolute;
+  pointer-events: auto;
+  user-select: none;
+  z-index: 1;
+  line-height: 1;
+  cursor: grab;
+  filter: drop-shadow(1px 2px 3px rgba(61,43,94,0.15));
+  transition: filter 0.2s ease;
+  /* rotation은 JS에서 --s-rot 변수로 관리 */
+  transform: rotate(var(--s-rot, 0deg));
+}
+
+.sticker:hover {
+  filter: drop-shadow(2px 4px 8px rgba(61,43,94,0.25)) brightness(1.08);
+  z-index: 50;
+}
+
+.sticker.s-dragging {
+  cursor: grabbing;
+  z-index: 51;
+  filter: drop-shadow(3px 6px 12px rgba(61,43,94,0.3)) brightness(1.1);
+  transition: none;
+}
+
+/* 둥둥 float 애니메이션 (--s-rot 변수 유지) */
+@keyframes stickerBob {
+  0%, 100% { transform: translateY(0px)   rotate(var(--s-rot, 0deg)); }
+  50%       { transform: translateY(-9px)  rotate(var(--s-rot, 0deg)); }
+}
+
+@keyframes stickerBobSlow {
+  0%, 100% { transform: translateY(0px)   rotate(var(--s-rot, 0deg)); }
+  50%       { transform: translateY(-6px)  rotate(var(--s-rot, 0deg)); }
+}
+
+.sticker.bob      { animation: stickerBob     3.8s ease-in-out infinite; }
+.sticker.bob-slow { animation: stickerBobSlow 5.2s ease-in-out infinite; }
+.sticker.bob-rev  { animation: stickerBob     4.4s ease-in-out infinite reverse; }
+
+/* 스티커 드래그 중에는 float 중지 */
+.sticker.s-dragging { animation: none !important; }
+
+/* 새 스티커 등장 팝 */
+@keyframes stickerPop {
+  0%   { opacity: 0; transform: scale(0.2) rotate(var(--s-rot, 0deg)); }
+  60%  { opacity: 1; transform: scale(1.3) rotate(var(--s-rot, 0deg)); }
+  100% { transform: scale(1)   rotate(var(--s-rot, 0deg)); }
+}
+
+.sticker.pop { animation: stickerPop 0.45s cubic-bezier(0.34, 1.5, 0.64, 1) forwards; }
+
+/* 이스터에그 획득 시 흔들기 */
+@keyframes stickerWiggle {
+  0%,100% { transform: rotate(var(--s-rot, 0deg)); }
+  20%     { transform: rotate(calc(var(--s-rot, 0deg) + 12deg)) scale(1.1); }
+  40%     { transform: rotate(calc(var(--s-rot, 0deg) - 10deg)) scale(1.1); }
+  60%     { transform: rotate(calc(var(--s-rot, 0deg) + 8deg))  scale(1.05); }
+  80%     { transform: rotate(calc(var(--s-rot, 0deg) - 5deg))  scale(1.02); }
+}
+
+.sticker.wiggle { animation: stickerWiggle 0.5s ease forwards !important; }
+
+/* =============================================
+   DESKTOP ICONS
+   ============================================= */
+.desktop-icons {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 10;
+}
+
+.icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 72px;
+  padding: 6px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  transition: background 0.15s;
+}
+
+.icon:hover {
+  background: rgba(201, 168, 224, 0.4);
+}
+
+.icon.selected {
+  background: rgba(244, 167, 185, 0.5);
+  border-color: rgba(201, 168, 224, 0.7);
+}
+
+.icon-img {
+  font-size: 32px;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.icon-label {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--text);
+  text-align: center;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.8);
+  word-break: break-all;
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+}
+
+/* =============================================
+   OS WINDOWS
+   ============================================= */
+.os-window {
+  position: absolute;
+  border: 2px solid var(--win-border);
+  border-radius: 6px;
+  overflow: visible;
+  background: var(--win-bg);
+  box-shadow: 3px 4px 16px rgba(61, 43, 94, 0.18);
+  min-width: 260px;
+  z-index: 100;
+  display: none;
+}
+
+.os-window.open {
+  display: block;
+  animation: winOpen 0.18s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+}
+
+.os-window.closing {
+  animation: winClose 0.14s ease-in forwards;
+  pointer-events: none;
+}
+
+@keyframes winOpen {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes winClose {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.9); }
+}
+
+/* inner clip so resize handles stay visible */
+.os-window > .win-titlebar,
+.os-window > .win-body {
+  border-radius: inherit;
+}
+
+/* FOCUSED / UNFOCUSED */
+.os-window:not(.focused) .win-titlebar {
+  background: #ddc4cc;
+  opacity: 0.85;
+}
+
+.os-window.focused {
+  box-shadow: 4px 6px 20px rgba(61, 43, 94, 0.28);
+}
+
+/* TITLEBAR */
+.win-titlebar {
+  height: 28px;
+  background: var(--titlebar);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  cursor: grab;
+  user-select: none;
+  gap: 6px;
+  border-radius: 4px 4px 0 0;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.win-titlebar:active { cursor: grabbing; }
+
+.os-window.dragging .win-titlebar { cursor: grabbing; }
+
+.win-controls {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.win-btn {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--win-border);
+  background: var(--btn-base);
+  border-radius: 2px;
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.1s, transform 0.08s;
+}
+
+.win-btn:hover { background: var(--btn-hover); }
+.win-btn:active { transform: translateY(1px); }
+
+.win-title {
+  flex: 1;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--text);
+  text-align: center;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+.win-icon-label {
+  font-size: 14px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* WINDOW BODY */
+.win-body {
+  padding: 14px 16px;
+  background: var(--win-bg);
+  font-family: var(--font-retro);
+  font-size: 16px;
+  color: var(--text);
+  overflow-y: auto;
+  max-height: calc(80vh - 28px);
+  border-radius: 0 0 4px 4px;
+}
+
+.win-divider {
+  border: none;
+  border-top: 1px solid var(--win-border);
+  margin: 10px 0;
+  opacity: 0.5;
+}
+
+/* RESIZE HANDLES */
+.resize-handle {
+  position: absolute;
+  z-index: 10;
+}
+
+.resize-handle.se {
+  bottom: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  cursor: se-resize;
+}
+
+.resize-handle.se::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--win-border);
+  border-bottom: 2px solid var(--win-border);
+  border-radius: 0 0 2px 0;
+  opacity: 0.6;
+}
+
+.resize-handle.e {
+  top: 28px;
+  right: -4px;
+  width: 8px;
+  bottom: 8px;
+  cursor: e-resize;
+}
+
+.resize-handle.s {
+  bottom: -4px;
+  left: 8px;
+  height: 8px;
+  right: 8px;
+  cursor: s-resize;
+}
+
+/* =============================================
+   Y2K BUTTON
+   ============================================= */
+.y2k-btn {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  padding: 7px 14px;
+  background: var(--btn-base);
+  border: 2px solid var(--win-border);
+  border-radius: 4px;
+  color: var(--text);
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  box-shadow: 2px 2px 0 var(--win-border);
+  transition: transform 0.08s, box-shadow 0.08s, background 0.1s;
+}
+
+.y2k-btn:hover { background: var(--btn-hover); }
+
+.y2k-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.y2k-btn.primary {
+  background: var(--titlebar);
+  border-color: #e088a0;
+  box-shadow: 2px 2px 0 #e088a0;
+}
+
+.y2k-btn.primary:hover { background: #f9bece; }
+
+/* =============================================
+   WINDOW 1 — ABOUT
+   ============================================= */
+.about-layout {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 2px;
+}
+
+.about-photo-wrap {
+  flex-shrink: 0;
+  width: 90px;
+  height: 90px;
+  position: relative;
+}
+
+.about-photo {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid var(--titlebar);
+  display: block;
+}
+
+.about-photo-ph {
+  width: 90px;
+  height: 90px;
+  border-radius: 8px;
+  border: 2px solid var(--titlebar);
+  background: #f9eef4;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+.about-info { flex: 1; }
+
+.info-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.info-label {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--label);
+  width: 62px;
+  flex-shrink: 0;
+  letter-spacing: 0.05em;
+}
+
+.info-sep { color: #bbb; }
+.info-val  { color: var(--text); font-family: var(--font-retro); font-size: 15px; }
+
+.status-employed {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--green);
+  font-family: var(--font-pixel);
+  font-size: 7px;
+}
+
+.dot-green {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.about-bio {
+  font-family: var(--font-kr);
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.about-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* =============================================
+   WINDOW 2 — SKILLS
+   ============================================= */
+.skills-section-title {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--label);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.skill-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 5px 0;
+}
+
+.skill-name {
+  width: 95px;
+  flex-shrink: 0;
+  font-family: var(--font-retro);
+  font-size: 16px;
+  color: var(--text);
+}
+
+.skill-bar-wrap {
+  flex: 1;
+  height: 12px;
+  background: var(--skill-bg);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--win-border);
+}
+
+.skill-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--skill-fill);
+  border-radius: 6px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skill-pct {
+  width: 38px;
+  text-align: right;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--label);
+}
+
+.domain-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-kr);
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.9;
+}
+
+.check-mark {
+  color: var(--green);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* =============================================
+   WINDOW 3 — PROJECTS
+   ============================================= */
+.proj-folder-title {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--label);
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.proj-filename {
+  font-family: var(--font-retro);
+  font-size: 16px;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+.proj-item {
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: default;
+}
+
+.proj-item:hover {
+  background: rgba(244, 167, 185, 0.2);
+  border-color: var(--titlebar);
+}
+
+.proj-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-retro);
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.proj-item-desc {
+  font-family: var(--font-retro);
+  font-size: 14px;
+  color: var(--label);
+}
+
+.proj-open-btn {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  padding: 4px 8px;
+  background: var(--btn-base);
+  border: 1px solid var(--win-border);
+  border-radius: 3px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.1s, transform 0.08s;
+  box-shadow: 1px 1px 0 var(--win-border);
+}
+
+.proj-open-btn:hover { background: var(--btn-hover); }
+.proj-open-btn:active { transform: translateY(1px); box-shadow: none; }
+
+.proj-open-btn.github {
+  background: #d4edda;
+  border-color: #a8d5b5;
+  color: #2d6a4f;
+  box-shadow: 1px 1px 0 #a8d5b5;
+}
+
+.proj-open-btn.github:hover { background: #b7e0c4; }
+
+/* =============================================
+   PROJECT DETAIL WINDOW
+   ============================================= */
+.detail-name {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--text);
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+  line-height: 1.8;
+}
+
+.detail-section {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--label);
+  letter-spacing: 0.06em;
+  margin: 10px 0 4px;
+}
+
+.detail-desc {
+  font-family: var(--font-kr);
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.detail-tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 4px 0;
+}
+
+.detail-tech-tag {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  padding: 3px 7px;
+  background: rgba(196, 168, 224, 0.25);
+  border: 1px solid var(--win-border);
+  border-radius: 3px;
+  color: var(--label);
+}
+
+.detail-achievement {
+  font-family: var(--font-kr);
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.8;
+  padding-left: 4px;
+}
+
+.detail-achievement::before {
+  content: '✓ ';
+  color: var(--green);
+  font-weight: bold;
+}
+
+.detail-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--label);
+  text-decoration: none;
+  border-bottom: 1px solid var(--win-border);
+  padding-bottom: 1px;
+  transition: color 0.1s;
+}
+
+.detail-link:hover { color: var(--accent); border-color: var(--accent); }
+
+/* =============================================
+   WINDOW 4 — CONTACT
+   ============================================= */
+.contact-to-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-family: var(--font-retro);
+  font-size: 16px;
+}
+
+.contact-to-label {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--label);
+  width: 32px;
+  letter-spacing: 0.04em;
+}
+
+.contact-to-sep { color: #bbb; }
+.contact-email  { color: var(--text); }
+
+.contact-field-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.contact-field-label {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--label);
+  width: 32px;
+  flex-shrink: 0;
+  padding-top: 7px;
+  letter-spacing: 0.04em;
+}
+
+.contact-input {
+  flex: 1;
+  border: 1px solid var(--win-border);
+  border-radius: 4px;
+  background: var(--win-bg);
+  padding: 5px 8px;
+  font-family: var(--font-retro);
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.contact-input:focus {
+  border-color: var(--titlebar);
+  box-shadow: 0 0 0 2px rgba(244,167,185,0.25);
+}
+
+.contact-input.error { border-color: #e57373; }
+
+.contact-textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+.contact-error {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: #c0392b;
+  min-height: 14px;
+  margin-bottom: 4px;
+  letter-spacing: 0.04em;
+}
+
+.contact-links {
+  margin-bottom: 10px;
+}
+
+.contact-link {
+  font-family: var(--font-retro);
+  font-size: 15px;
+  color: var(--label);
+  text-decoration: none;
+  transition: color 0.1s;
+}
+
+.contact-link:hover { color: var(--accent); }
+
+.contact-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 52px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--text);
+  color: #fff;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+  white-space: nowrap;
+  z-index: 9999;
+  letter-spacing: 0.05em;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* =============================================
+   ERROR POPUP
+   ============================================= */
+.error-body {
+  text-align: center;
+  padding: 18px 16px 20px;
+}
+
+.error-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+  animation: errorIconBounce 0.6s cubic-bezier(0.34,1.5,0.64,1) forwards;
+}
+
+@keyframes errorIconBounce {
+  from { transform: scale(0.5) translateY(-10px); opacity: 0; }
+  to   { transform: scale(1)   translateY(0);     opacity: 1; }
+}
+
+.error-msg {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+}
+
+.error-sub {
+  font-family: var(--font-kr);
+  font-size: 14px;
+  color: var(--label);
+  margin-bottom: 18px;
+  min-height: 22px;
+}
+
+.error-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* 에러 팝업 흔들기 (아니오 클릭 시) */
+@keyframes errorShake {
+  0%,100% { transform: translateX(-50%); }
+  20%     { transform: translateX(calc(-50% + 8px)); }
+  40%     { transform: translateX(calc(-50% - 8px)); }
+  60%     { transform: translateX(calc(-50% + 5px)); }
+  80%     { transform: translateX(calc(-50% - 4px)); }
+}
+
+#win-error.shake { animation: errorShake 0.4s ease; }
+
+/* =============================================
+   TASKBAR
+   ============================================= */
+.taskbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: var(--taskbar-bg);
+  border-top: 2px solid var(--taskbar-border);
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  gap: 4px;
+  z-index: 500;
+}
+
+.taskbar-start {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  padding: 5px 10px;
+  background: var(--btn-base);
+  border: 2px solid var(--taskbar-border);
+  border-radius: 4px;
+  color: var(--text);
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  box-shadow: 2px 2px 0 var(--taskbar-border);
+  transition: background 0.1s, transform 0.08s;
+  flex-shrink: 0;
+}
+
+.taskbar-start:hover { background: var(--btn-hover); }
+.taskbar-start:active { transform: translateY(1px); box-shadow: none; }
+
+.taskbar-sep {
+  width: 1px;
+  height: 24px;
+  background: var(--taskbar-border);
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+
+.taskbar-windows {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex: 1;
+  overflow: hidden;
+  margin-left: 4px;
+}
+
+.taskbar-win-btn {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  padding: 4px 9px;
+  background: rgba(255,255,255,0.4);
+  border: 1px solid var(--taskbar-border);
+  border-radius: 3px;
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  transition: background 0.1s, transform 0.08s;
+}
+
+.taskbar-win-btn:hover { background: rgba(244,167,185,0.5); }
+.taskbar-win-btn:active { transform: translateY(1px); }
+
+.taskbar-win-btn.minimized {
+  background: rgba(201,168,224,0.6);
+  border-color: var(--label);
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.5);
+}
+
+.taskbar-win-btn.active {
+  background: rgba(244,167,185,0.6);
+  border-color: #e088a0;
+}
+
+.taskbar-clock {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--text);
+  padding: 0 10px;
+  flex-shrink: 0;
+  letter-spacing: 0.05em;
+}
+
+/* =============================================
+   SCROLLBAR
+   ============================================= */
+.win-body::-webkit-scrollbar { width: 6px; }
+.win-body::-webkit-scrollbar-track { background: var(--win-bg); }
+.win-body::-webkit-scrollbar-thumb {
+  background: var(--win-border);
+  border-radius: 3px;
+}
+
+/* =============================================
+   GLOBAL POLISH
+   ============================================= */
+::selection {
+  background: rgba(244, 167, 185, 0.4);
+  color: var(--text);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+/* =============================================
+   RESPONSIVE — TABLET (768px ~ 1279px)
+   ============================================= */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .os-window { max-width: min(90vw, 520px) !important; }
+
+  /* 창이 뷰포트 우측 밖으로 나가지 않도록 */
+  #win-contact { left: auto !important; right: 20px !important; }
+  #win-skills  { left: auto !important; right: 20px !important; }
+}
+
+/* =============================================
+   RESPONSIVE — MOBILE (≤ 767px)
+   ============================================= */
+@media (max-width: 767px) {
+  body {
+    overflow-y: auto;
+    height: auto;
+  }
+
+  #desktop {
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+    display: block;
+    padding: 12px 10px 58px; /* 하단 taskbar 공간 확보 */
+  }
+
+  /* 모든 메인 창을 세로 배치 */
+  .os-window {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 12px;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(61, 43, 94, 0.15);
+    border-radius: 6px;
+  }
+
+  /* 닫기/최대화/최소화 버튼 숨김 (스크롤 레이아웃에서 불필요) */
+  .win-controls { display: none; }
+
+  /* 프로젝트 상세창·에러 팝업은 모바일에서 오버레이로 */
+  #win-proj-detail {
+    position: fixed !important;
+    top: 10% !important;
+    left: 5% !important;
+    width: 90% !important;
+    max-width: 90% !important;
+    z-index: 8000 !important;
+    display: none !important;
+  }
+  #win-proj-detail.open { display: block !important; }
+
+  #win-error {
+    position: fixed !important;
+    top: 20% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 88% !important;
+    z-index: 9500 !important;
+  }
+
+  /* 바탕화면 아이콘 숨김 */
+  .desktop-icons { display: none; }
+
+  /* 태스크바 고정 + 스크롤 가능 */
+  .taskbar {
+    position: fixed;
+    z-index: 9000;
+    overflow-x: auto;
+    gap: 3px;
+    padding: 0 4px;
+  }
+
+  .taskbar-start { font-size: 7px; padding: 4px 7px; flex-shrink: 0; }
+  .taskbar-sep   { display: none; }
+  .taskbar-win-btn { font-size: 6px; padding: 3px 6px; }
+  .taskbar-clock { font-size: 8px; padding: 0 6px; }
+
+  /* 스티커 숨김 */
+  .sticker { display: none; }
+
+  /* 부팅 화면 배경 장식 숨김 */
+  .boot-deco { display: none; }
+
+  /* 부팅 박스 여백 축소 */
+  .boot-box { padding: 24px 18px 20px; width: 92vw; }
+  .boot-title-text { font-size: 9px; }
+  .boot-subtitle   { font-size: 17px; }
+
+  /* 스킬 창 폰트 축소 */
+  .skill-name { font-size: 14px; width: 80px; }
+
+  /* ABOUT 사진 축소 */
+  .about-photo-wrap { width: 72px; height: 72px; }
+  .about-photo, .about-photo-ph { width: 72px; height: 72px; }
+
+  /* 모바일 win-body 높이 제한 해제 */
+  .win-body { max-height: none !important; }
+}
+
+/* =============================================
+   PRINT (빠른 인쇄 기본값)
+   ============================================= */
+@media print {
+  #boot-screen, .taskbar, .sticker, .win-controls { display: none !important; }
+  .os-window {
+    position: relative !important;
+    display: block !important;
+    box-shadow: none;
+    page-break-inside: avoid;
+  }
+}
