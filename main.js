@@ -711,20 +711,47 @@ function scheduleErrorPopup() {
     closeWindow('win-error');
     openWindow('win-contact');
   });
-  document.getElementById('btn-error-no')?.addEventListener('click', () => {
+  const noBtn = document.getElementById('btn-error-no');
+  if (noBtn) {
+    noBtn.addEventListener('mousemove', (e) => {
+      const btn = e.currentTarget;
+      const rect = btn.getBoundingClientRect();
+      const btnCx = rect.left + rect.width / 2;
+      const btnCy = rect.top + rect.height / 2;
+
+      /* 커서→버튼 중심 벡터의 반대 방향으로 도망 */
+      const dx = btnCx - e.clientX;
+      const dy = btnCy - e.clientY;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      const flee = 90;
+      let nx = btnCx + (dx / dist) * flee;
+      let ny = btnCy + (dy / dist) * flee;
+
+      /* 화면 밖으로 나가지 않도록 클램프 */
+      nx = Math.max(rect.width / 2, Math.min(window.innerWidth  - rect.width / 2,  nx));
+      ny = Math.max(rect.height / 2, Math.min(window.innerHeight - rect.height / 2, ny));
+
+      btn.style.position = 'fixed';
+      btn.style.left = (nx - rect.width / 2) + 'px';
+      btn.style.top  = (ny - rect.height / 2) + 'px';
+      btn.style.zIndex = 9999;
+    });
+
+    /* 팝업이 닫히거나 다시 열릴 때 버튼 위치 초기화 */
+    const resetNoBtn = () => {
+      noBtn.style.position = '';
+      noBtn.style.left = '';
+      noBtn.style.top  = '';
+    };
+
+    document.getElementById('btn-error-yes')?.addEventListener('click', resetNoBtn);
+
     const popup = document.getElementById('win-error');
-    if (!popup) return;
-    popup.classList.add('shake');
-    popup.addEventListener('animationend', () => {
-      popup.classList.remove('shake');
-      closeWindow('win-error');
-      /* 개그: 15~25초 후 다시 등장 */
-      setTimeout(() => {
-        popup.style.display = 'block';
-        bringToFront(popup);
-      }, 15000 + Math.random() * 10000);
-    }, { once: true });
-  });
+    const observer = new MutationObserver(() => {
+      if (popup.style.display === 'block') resetNoBtn();
+    });
+    if (popup) observer.observe(popup, { attributes: true, attributeFilter: ['style'] });
+  }
 }
 
 /* =============================================
